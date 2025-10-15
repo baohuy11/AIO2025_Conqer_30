@@ -65,65 +65,66 @@ This means: "The probability that the true precision of anchor A is at least $\t
 
 The `alibi` library in Python provides a ready-to-use implementation of the Anchor algorithm. Here's how you can use it to explain a prediction from a Random Forest model trained on the Iris dataset. This code demonstrates how to find an anchor that explains why the model classified a specific flower as 'setosa'.
 
-    ```python
-    import numpy as np
-    from sklearn.ensemble import RandomForestClassifier
-    from sklearn.datasets import load_iris
-    from alibi.explainers import AnchorTabular
+```python
+```python
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_iris
+from alibi.explainers import AnchorTabular
 
-    # 1. Load the Iris dataset and train a simple model
-    data = load_iris()
-    X, y = data.data, data.target
-    feature_names = data.feature_names
-    class_names = data.target_names
+# 1. Load the Iris dataset and train a simple model
+data = load_iris()
+X, y = data.data, data.target
+feature_names = data.feature_names
+class_names = data.target_names
 
-    # Train a Random Forest classifier
-    clf = RandomForestClassifier(n_estimators=50, random_state=42)
-    clf.fit(X, y)
+# Train a Random Forest classifier
+clf = RandomForestClassifier(n_estimators=50, random_state=42)
+clf.fit(X, y)
 
-    # 2. Set up the Anchor explainer
-    # The explainer needs a function that takes raw data and returns predictions
-    predict_fn = lambda x: clf.predict(x)
+# 2. Set up the Anchor explainer
+# The explainer needs a function that takes raw data and returns predictions
+predict_fn = lambda x: clf.predict(x)
 
-    # Initialize the explainer with the prediction function and feature names
-    explainer = AnchorTabular(
-        predictor=predict_fn,
-        feature_names=feature_names
-    )
+# Initialize the explainer with the prediction function and feature names
+explainer = AnchorTabular(
+    predictor=predict_fn,
+    feature_names=feature_names
+)
 
-    # Fit the explainer on the training data to learn data distributions
-    explainer.fit(X)
+# Fit the explainer on the training data to learn data distributions
+explainer.fit(X)
 
-    # 3. Explain a specific instance
-    # Select the first instance from the dataset to explain
-    instance_to_explain = X[0].reshape(1, -1)
-    true_label = class_names[y[0]]
+# 3. Explain a specific instance
+# Select the first instance from the dataset to explain
+instance_to_explain = X[0].reshape(1, -1)
+true_label = class_names[y[0]]
 
-    print(f"Instance being explained: {instance_to_explain}")
-    print(f"Model's prediction: {class_names[clf.predict(instance_to_explain)[0]]}")
-    print(f"True class: {true_label}")
+print(f"Instance being explained: {instance_to_explain}")
+print(f"Model's prediction: {class_names[clf.predict(instance_to_explain)[0]]}")
+print(f"True class: {true_label}")
 
-    # Generate the explanation
-    explanation = explainer.explain(instance_to_explain, threshold=0.95)
+# Generate the explanation
+explanation = explainer.explain(instance_to_explain, threshold=0.95)
 
-    # 4. Print the results
-    print("\n--- Anchor Explanation ---")
-    print(f"Anchor: {' AND '.join(explanation.anchor)}")
-    print(f"Precision: {explanation.precision:.2f}")
-    print(f"Coverage: {explanation.coverage:.2f}")
-    ```
+# 4. Print the results
+print("\n--- Anchor Explanation ---")
+print(f"Anchor: {' AND '.join(explanation.anchor)}")
+print(f"Precision: {explanation.precision:.2f}")
+print(f"Coverage: {explanation.coverage:.2f}")
+```
 
 Output of the Code:
 
-    ```python
-    Instance being explained: [[5.1 3.5 1.4 0.2]]
-    Model's prediction: setosa
-    True class: setosa
+```python
+Instance being explained: [[5.1 3.5 1.4 0.2]]
+Model's prediction: setosa
+True class: setosa
 
-    --- Anchor Explanation ---
-    Anchor: petal width (cm) <= 0.60 AND petal length (cm) <= 1.90
-    Precision: 1.00
-    Coverage: 0.33
-    ```
+--- Anchor Explanation ---
+Anchor: petal width (cm) <= 0.60 AND petal length (cm) <= 1.90
+Precision: 1.00
+Coverage: 0.33
+```
 
 This output tells us that for the model to classify this flower as 'setosa', it was sufficient for the petal width to be less than or equal to 0.60 cm and the petal length to be less than or equal to 1.90 cm. This rule has 100% precision, meaning that for all other samples where this rule holds, the model also predicted 'setosa'. The rule applies to about 33% of the data (coverage).
