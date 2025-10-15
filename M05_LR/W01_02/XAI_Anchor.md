@@ -66,7 +66,6 @@ This means: "The probability that the true precision of anchor A is at least $\t
 The `alibi` library in Python provides a ready-to-use implementation of the Anchor algorithm. Here's how you can use it to explain a prediction from a Random Forest model trained on the Iris dataset. This code demonstrates how to find an anchor that explains why the model classified a specific flower as 'setosa'.
 
 ```python
-```python
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import load_iris
