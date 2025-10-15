@@ -7,24 +7,29 @@
 1.  Pick a sample $(x, y)$ from training data
 
 2.  Compute the output $\hat{y}$
+
     $$
     \hat{y} = wx + b
     $$
 
 3.  Compute loss
+
     $$
     L = (\hat{y} - y)^2
     $$
 
 4.  Compute derivative
+
     $$
     \frac{\partial L}{\partial w} = 2x(\hat{y} - y) \qquad \frac{\partial L}{\partial b} = 2(\hat{y} - y)
     $$
 
 5.  Update parameters
+
     $$
     w = w - \eta \frac{\partial L}{\partial w} \qquad b = b - \eta \frac{\partial L}{\partial b}
     $$
+
     where $\eta$ is the learning rate.
 
 ## **2. Vetorizer**
@@ -34,24 +39,29 @@
 1.  Pick a sample $(\mathbf{x}, y)$ from training data
 
 2.  Compute output $\hat{y}$
+
     $$
     \hat{y} = \boldsymbol{\theta}^T \mathbf{x} = \mathbf{x}^T \boldsymbol{\theta}
     $$
 
 3.  Compute loss
+
     $$
     L = (\hat{y} - y)^2
     $$
 
 4.  Compute gradient
+
     $$
     \nabla_{\boldsymbol{\theta}}L = 2\mathbf{x}(\hat{y} - y)
     $$
 
 5.  Update parameters
+
     $$
     \boldsymbol{\theta} = \boldsymbol{\theta} - \eta \nabla_{\boldsymbol{\theta}}L
     $$
+
     where $\eta$ is the learning rate.
 
 ---
@@ -61,24 +71,29 @@
 1.  Pick *m* samples $(\mathbf{x}^{(i)}, y^{(i)})$ from training data
 
 2.  Compute output $\hat{y}^{(i)}$ for each sample
+
     $$
     \hat{y}^{(i)} = \boldsymbol{\theta}^T \mathbf{x}^{(i)} \quad \text{for } i=1, ..., m
     $$
 
 3.  Compute average loss over the batch
+
     $$
     L = \frac{1}{m} \sum_{i=1}^{m} (\hat{y}^{(i)} - y^{(i)})^2
     $$
 
 4.  Compute the average gradient over the batch
+
     $$
     \nabla_{\boldsymbol{\theta}}L_{avg} = \frac{1}{m} \sum_{i=1}^{m} \nabla_{\boldsymbol{\theta}}L^{(i)}
     $$
 
 5.  Update parameters using the average gradient
+
     $$
     \boldsymbol{\theta} = \boldsymbol{\theta} - \eta \left( \frac{1}{m} \sum_{i=1}^{m} \nabla_{\boldsymbol{\theta}}L^{(i)} \right)
     $$
+    
     where $\eta$ is the learning rate.
 
 ### Code implementation
