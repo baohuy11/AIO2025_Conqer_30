@@ -344,8 +344,7 @@ $$\hat{Y} = X^T \cdot \theta =
 0.01 \\
 0.01 \\
 0.01
-\end{pmatrix}
-=
+\end{pmatrix} =
 \begin{pmatrix}
 3.38 \\
 1.30
