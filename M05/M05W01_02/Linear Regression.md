@@ -683,6 +683,7 @@ Lặp lại quá trình này hàng nghìn lần, mô hình sẽ ngày càng chí
 -   **Ưu điểm**: Vừa ổn định, vừa bền vững với outliers. Thường là lựa chọn mặc định an toàn.
 
 -   **Công thức**:
+
 $$
 L_{\delta}(y, \hat{y}) =
 \begin{cases}
