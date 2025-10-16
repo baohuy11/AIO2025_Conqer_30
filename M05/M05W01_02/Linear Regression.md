@@ -628,11 +628,7 @@ Quá trình học của mô hình là một vòng lặp tối ưu hóa gồm 5 b
 
 1.  **Lấy mẫu**: Chọn một cặp dữ liệu (ví dụ: diện tích = 6.7, giá = 9.1).
 
-2.  **Dự đoán**: Dùng các trọng số $w$ và $b$ hiện tại để tính giá dự đoán: 
-
-$$
-\hat{y} = wx + b
-$$.
+2.  **Dự đoán**: Dùng các trọng số $w$ và $b$ hiện tại để tính giá dự đoán: $\hat{y} = wx + b$.
 
 3.  **Tính sai số (Loss)**: So sánh giá dự đoán và giá thật bằng hàm mất mát, ví dụ: 
 
@@ -687,13 +683,13 @@ Lặp lại quá trình này hàng nghìn lần, mô hình sẽ ngày càng chí
 -   **Ưu điểm**: Vừa ổn định, vừa bền vững với outliers. Thường là lựa chọn mặc định an toàn.
 
 -   **Công thức**:
-    $$
-    L_{\delta}(y, \hat{y}) =
-    \begin{cases}
-    \frac{1}{2}(y - \hat{y})^2 & \text{if } |y - \hat{y}| \le \delta \\
-    \delta|y - \hat{y}| - \frac{1}{2}\delta^2 & \text{if } |y - \hat{y}| > \delta
-    \end{cases}
-    $$
+$$
+L_{\delta}(y, \hat{y}) =
+\begin{cases}
+\frac{1}{2}(y - \hat{y})^2 & \text{if } |y - \hat{y}| \le \delta \\
+\delta|y - \hat{y}| - \frac{1}{2}\delta^2 & \text{if } |y - \hat{y}| > \delta
+\end{cases}
+$$
 
 ---
 
