@@ -186,13 +186,21 @@ Chúng ta sẽ tìm hiểu về việc áp dụng vectorized trong linear regres
 
 4.  **Tính đạo hàm theo w và b**
 
-    $$ \frac{\partial L}{\partial w_1} = 2x_1(\hat{y} - y) $$
+$$ 
+\frac{\partial L}{\partial w_1} = 2x_1(\hat{y} - y) 
+$$
 
-    $$ \frac{\partial L}{\partial w_2} = 2x_2(\hat{y} - y) $$
+$$ 
+\frac{\partial L}{\partial w_2} = 2x_2(\hat{y} - y) 
+$$
 
-    $$ \frac{\partial L}{\partial w_3} = 2x_3(\hat{y} - y) $$
+$$
+\frac{\partial L}{\partial w_3} = 2x_3(\hat{y} - y) 
+$$
 
-    $$ \frac{\partial L}{\partial b} = 2(\hat{y} - y) $$
+$$ 
+\frac{\partial L}{\partial b} = 2(\hat{y} - y) 
+$$
 
 5.  **Cập nhật tham số $w_1, w_2, \dots, w_i$ và b**
 
@@ -216,7 +224,9 @@ Chọn dòng dữ liệu đầu tiên ta có $x_1 = 230.1$, $x_2 = 37.8$, $x_3 =
 
 **B2. Tiếp theo, áp dụng công thức ta có:**
 
-$\hat{Y} = 0.01*230.1 + 0.01*37.8 + 0.01*69.2 + 0.01 = 3.38$
+$$
+\hat{Y} = 0.01*230.1 + 0.01*37.8 + 0.01*69.2 + 0.01 = 3.38
+$$
 
 **B3. Tính Loss = $(\hat{Y}-y)^2 = (3.38-22.1)^2 \approx 350.43$**
 
@@ -224,13 +234,13 @@ $\hat{Y} = 0.01*230.1 + 0.01*37.8 + 0.01*69.2 + 0.01 = 3.38$
 
 Ta có $\hat{Y}-y = 3.38 - 22.1 = -18.72$
 
-- Đạo hàm tại w1: $2 * 230.1 * -18.72 = -8614.944$
+- Đạo hàm tại $w_1$: $2 * 230.1 * (-18.72) = -8614.944$
 
-- Đạo hàm tại w2: $2 * 37.8 * -18.72 = -1415.232$
+- Đạo hàm tại $w_2$: $2 * 37.8 * (-18.72) = -1415.232$
 
-- Đạo hàm tại w3: $2 * 69.2 * -18.72 = -2590.848$
+- Đạo hàm tại $w_3$: $2 * 69.2 * (-18.72) = -2590.848$
 
-- Đạo hàm tại b: $2 * -18.72 = -37.44$
+- Đạo hàm tại $b$: $2 * (-18.72) = -37.44$
 
 **B5. Cập nhật $w_1, w_2, w_3$ và b**
 
@@ -250,6 +260,9 @@ Ta sẽ tiếp tục dùng dòng thứ 2 của data và tính toán theo 5 bư�
 Như các bạn thấy ở trên các tham số sẽ được cập nhật sau mỗi lần huấn luyện 1 dòng data, việc này sẽ đơn giản và ít tốn thời gian so với dữ liệu nhỏ, với dữ liệu lớn việc này sẽ tốn nhiều thời gian để huấn luyện. Do đó việc áp dụng vectorized sẽ giúp tiết kiệm thời gian tính toán.
 
 Với dữ liệu như sau, ta sẽ biến đổi công thức sang dạng vector như sau ở các bước b1, b2, b4, b5:
+
+
+<div style="border: 2px solid #666; padding: 15px; border-radius: 8px;">
 
 1.  Pick a sample $(\mathbf{x}, y)$ from training data
 
@@ -278,13 +291,16 @@ $$
 $$
 
 where $\eta$ is the learning rate.
+</div>
 
 Khởi tạo tham số $w_1, w_2, w_3, b = 0.01, n = 0.0001$
 
 ### B1: Ta tạo 1 ma trận X tương đương như sau:
 
-Matrix A:
+Matrix X:
+
 $$
+X = 
 \begin{pmatrix}
 1 & 1 \\
 230.1 & 44.5 \\
@@ -294,7 +310,9 @@ $$
 $$
 
 Tạo ma trận Y tương ứng với cột sales:
+
 $$
+Y = 
 \begin{pmatrix}
 22.1 \\
 10.4
@@ -302,7 +320,9 @@ $$
 $$
 
 Tạo ma trận $\theta$:
+
 $$
+\theta =
 \begin{pmatrix}
 0.01 \\
 0.01 \\
@@ -311,10 +331,10 @@ $$
 \end{pmatrix}
 $$
 
-### B2: tính $\hat{Y}$, ta có
+### B2: Tính $\hat{Y}$, ta có
 
-$X^T \cdot \theta =$
 $$
+\hat{Y} = X^T \cdot \theta = 
 \begin{pmatrix}
 1 & 230.1 & 37.8 & 69.2 \\
 1 & 44.5 & 39.2 & 45.1
@@ -334,66 +354,73 @@ $$
 $$
 
 Ta thu được kết quả $\hat{Y}$ sau:
+
 $$
+\hat{Y} =
 \begin{pmatrix}
 3.381 \\
 1.298
 \end{pmatrix}
 $$
 
----
-
 ### B3. Tính loss
 
-Ta có $L = (\hat{Y} - Y)$ (Phần tính toán trong ảnh có thể là `2 * (Y_hat - Y)` để dùng cho bước sau):
+Công thức MSE dạng ma trận:
+
 $$
-2 \cdot
-\left(
+L = \frac{1}{m} (\hat{Y} - Y)^T (\hat{Y} - Y)
+$$
+
+Trong đó $m$ là số lượng mẫu dữ liệu (ở đây $m=2$).
+
+
+1.  **Tính vector sai số ($E = \hat{Y} - Y$):**
+
+$$
+E = \begin{pmatrix} 3.381 \\ 1.299 \end{pmatrix} - \begin{pmatrix} 22.1 \\ 10.4 \end{pmatrix} = \begin{pmatrix} -18.719 \\ -9.101 \end{pmatrix}
+$$
+
+2.  **Tính Loss (MSE):**
+
+$$
+L = \frac{1}{2} \left( (-18.719)^2 + (-9.101)^2 \right) = \frac{1}{2} (350.40 + 82.83) = 216.615
+$$
+
+Giá trị loss là **216.615**.
+
+### B4: Đạo hàm theo w và b:
+
+Công thức tính gradient cho MSE:
+$$\nabla L = \frac{\partial L}{\partial \theta} = \frac{2}{m} X (\hat{Y} - Y)$$
+
+1.  **Áp dụng công thức:**
+    Vì $m=2$, hệ số $\frac{2}{m} = 1$. Ta có:
+    $$
+    \nabla L = 1 \cdot X \cdot E = \begin{pmatrix} 1 & 1 \\ 230.1 & 44.5 \\ 37.8 & 39.3 \\ 69.2 & 45.1 \end{pmatrix} \cdot \begin{pmatrix} -18.719 \\ -9.101 \end{pmatrix}
+    $$
+
+2.  **Thực hiện phép nhân ma trận:**
+    $$
+    \nabla L =
     \begin{pmatrix}
-    3.38 \\
-    1.298
+    1(-18.719) + 1(-9.101) \\
+    230.1(-18.719) + 44.5(-9.101) \\
+    37.8(-18.719) + 39.3(-9.101) \\
+    69.2(-18.719) + 45.1(-9.101)
     \end{pmatrix}
-    -
+    =
     \begin{pmatrix}
-    22.1 \\
-    10.04
+    -27.82 \\
+    -4712.24 \\
+    -1065.25 \\
+    -1705.82
     \end{pmatrix}
-\right)
-=
-\begin{pmatrix}
--37.44 \\
--17.48
-\end{pmatrix}
-$$
+    $$
 
-### B4: đạo hàm theo w và b:
+### B5: Cập nhật tham số
 
-$$
-2 \cdot
-\begin{pmatrix}
-1 & 1 \\
-230.1 & 44.5 \\
-37.8 & 39.3 \\
-69.2 & 45.1
-\end{pmatrix}
-\cdot
-\begin{pmatrix}
--18.72 \\
--8.74
-\end{pmatrix}
-=
-\begin{pmatrix}
--54.92 \\
--9392.80 \\
--2102.20 \\
--3379.20
-\end{pmatrix}
-$$
-
-ta thu được b = -54.92, w1 = -9392.8, w2 = -2102.2, w3 = -3379.2
-
-### B5: cập nhật tham số
-
+Sử dụng vector gradient vừa tính được để cập nhật $\theta$:
+$$\theta_{new} = \theta_{old} - \eta \nabla L$$
 $$
 \begin{pmatrix}
 0.01 \\
@@ -403,22 +430,46 @@ $$
 \end{pmatrix}
 - 0.0001 \cdot
 \begin{pmatrix}
--54.92 \\
--9392.8 \\
--2102.2 \\
--3379.2
+-27.82 \\
+-4712.24 \\
+-1065.25 \\
+-1705.82
 \end{pmatrix}
 =
 \begin{pmatrix}
-0.02 \\
-0.95 \\
-0.22 \\
-0.35
+0.01 - (-0.00278) \\
+0.01 - (-0.47122) \\
+0.01 - (-0.10652) \\
+0.01 - (-0.17058)
+\end{pmatrix}
+=
+\begin{pmatrix}
+0.01278 \\
+0.48122 \\
+0.11652 \\
+0.18058
+\end{pmatrix}
+$$
+
+$$
+\begin{pmatrix}
+w_1 \\
+w_2 \\
+w_3 \\
+b
+\end{pmatrix}
+=
+\begin{pmatrix}
+0.01278 \\
+0.48122 \\
+0.11652 \\
+0.18058
 \end{pmatrix}
 $$
 
 Do ta có 2 data nên sẽ cần phải chạy 2 lần lặp lại b1 và giữ nguyên tham số mới nhất, ta thu được:
-w1 = 0.46, w2 = -0.21, w3 = -0.15, b = 0.0045
+
+$w_1 = 0.01278, w_2 = 0.48122, w_3 = 0.11652, b = 0.18058$
 
 Như vậy việc áp dụng vectorized và sử dụng ma trận sẽ tính toán toàn bộ data trong 1 lần duy nhất mà không cần phải tính toán từng dòng 1. Việc dùng vectorized giúp chúng ta tính toán tất cả data trong cùng 1 lần duy nhất mà không phải đi từng dòng để tính toán, từ đó cải thiện được thời gian tính toán lên rất nhiều.
 
