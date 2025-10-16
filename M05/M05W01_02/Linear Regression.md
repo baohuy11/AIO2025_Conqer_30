@@ -333,10 +333,7 @@ $$
 
 ### B2: Tính $\hat{Y}$, ta có
 
-$$
-
-\hat{Y} = X^T \cdot \theta = 
-
+$$\hat{Y} = X^T \cdot \theta = 
 \begin{pmatrix}
 1 & 230.1 & 37.8 & 69.2 \\
 1 & 44.5 & 39.2 & 45.1
