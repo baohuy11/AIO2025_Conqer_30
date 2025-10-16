@@ -438,15 +438,13 @@ $$
 -4712.24 \\
 -1065.25 \\
 -1705.82
-\end{pmatrix}
-=
+\end{pmatrix} =
 \begin{pmatrix}
 0.01 - (-0.00278) \\
 0.01 - (-0.47122) \\
 0.01 - (-0.10652) \\
 0.01 - (-0.17058)
-\end{pmatrix}
-=
+\end{pmatrix} =
 \begin{pmatrix}
 0.01278 \\
 0.48122 \\
@@ -461,8 +459,7 @@ w_1 \\
 w_2 \\
 w_3 \\
 b
-\end{pmatrix}
-=
+\end{pmatrix} =
 \begin{pmatrix}
 0.01278 \\
 0.48122 \\
