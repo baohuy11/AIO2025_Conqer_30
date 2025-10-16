@@ -393,6 +393,7 @@ $$\nabla L = \frac{\partial L}{\partial \theta} = \frac{2}{m} X (\hat{Y} - Y)$$
 
 1.  **Áp dụng công thức:**
     Vì $m=2$, hệ số $\frac{2}{m} = 1$. Ta có:
+    
     $$
     \nabla L = 1 \cdot X \cdot E = \begin{pmatrix} 1 & 1 \\ 230.1 & 44.5 \\ 37.8 & 39.3 \\ 69.2 & 45.1 \end{pmatrix} \cdot \begin{pmatrix} -18.719 \\ -9.101 \end{pmatrix}
     $$
@@ -405,8 +406,7 @@ $$\nabla L = \frac{\partial L}{\partial \theta} = \frac{2}{m} X (\hat{Y} - Y)$$
     230.1(-18.719) + 44.5(-9.101) \\
     37.8(-18.719) + 39.3(-9.101) \\
     69.2(-18.719) + 45.1(-9.101)
-    \end{pmatrix}
-    =
+    \end{pmatrix} =
     \begin{pmatrix}
     -27.82 \\
     -4712.24 \\
