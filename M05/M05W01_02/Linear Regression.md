@@ -226,14 +226,11 @@ print("Optimal parameters:", theta)
 - Khi tập dữ liệu quá lớn, không thể tải hết vào RAM cùng một lúc.
 - Khi cần một mô hình có thể học online (cập nhật khi có dữ liệu mới).
 
-
-
 ### Kết luận
 
 **Normal Equation** là một công cụ mạnh mẽ và thanh lịch trong Machine Learning, đặc biệt phù hợp với các bài toán Linear Regression có quy mô vừa phải. Việc hiểu rõ cách hoạt động của nó không chỉ giúp bạn giải quyết vấn đề hiệu quả mà còn củng cố nền tảng toán học trong ML.
 
-### Điểm quan trọng
-**Normal Equation** là một ví dụ tuyệt vời cho thấy không phải lúc nào cũng cần "học" (learning) qua nhiều vòng lặp – đôi khi chúng ta có thể "tính toán" (computing) trực tiếp để ra ngay câu trả lời tối ưu!
+**Điểm quan trọng:** **Normal Equation** là một ví dụ tuyệt vời cho thấy không phải lúc nào cũng cần "học" qua nhiều vòng lặp – đôi khi chúng ta có thể "tính toán" trực tiếp để ra ngay câu trả lời tối ưu!
 
 
 ## **4. Affect of Loss Function**
