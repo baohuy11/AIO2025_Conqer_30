@@ -147,6 +147,12 @@ Trong đó:
 
 ### **Cách hoạt động**
 
+Minh họa Linear Regression
+
+![Minh họa Linear Regression](../img/output_lr.png)
+
+Các điểm xanh là dữ liệu, đường đỏ là đường hồi quy tìm được bằng Normal Equation
+
 **Bước 1: Chuẩn bị dữ liệu**
 
 Giả sử chúng ta có dữ liệu về diện tích nhà và giá nhà:
