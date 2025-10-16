@@ -261,7 +261,6 @@ Như các bạn thấy ở trên các tham số sẽ được cập nhật sau m
 
 Với dữ liệu như sau, ta sẽ biến đổi công thức sang dạng vector như sau ở các bước b1, b2, b4, b5:
 
-
 <div style="border: 2px solid #666; padding: 15px; border-radius: 8px;">
 
 1.  Pick a sample $(\mathbf{x}, y)$ from training data
@@ -291,6 +290,7 @@ $$
 $$
 
 where $\eta$ is the learning rate.
+
 </div>
 
 Khởi tạo tham số $w_1, w_2, w_3, b = 0.01, n = 0.0001$
