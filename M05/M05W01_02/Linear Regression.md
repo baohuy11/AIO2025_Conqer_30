@@ -432,8 +432,7 @@ $$
 0.01 \\
 0.01 \\
 0.01
-\end{pmatrix}
-- 0.0001 \cdot
+\end{pmatrix} - 0.0001 \cdot
 \begin{pmatrix}
 -27.82 \\
 -4712.24 \\
