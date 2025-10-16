@@ -425,6 +425,7 @@ $$
 Sử dụng vector gradient vừa tính được để cập nhật $\theta$:
 
 $$\theta_{new} = \theta_{old} - \eta \nabla L$$
+
 $$
 \begin{pmatrix}
 0.01 \\
