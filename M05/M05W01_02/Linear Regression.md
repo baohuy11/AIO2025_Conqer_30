@@ -738,4 +738,124 @@ Việc lựa chọn đúng hàm mất mát là một nghệ thuật, đòi hỏi
 
 ---
 
-## **6. XAI(LIME and Anchor)**
+## **6. XAI(LIME)**
+
+### **6.1. Tóm tắt: Explainable AI (XAI) và LIME**
+
+#### **Interpretability (Tính Diễn giải) là gì và Tại sao chúng ta cần nó?**
+
+**Tính diễn giải (Interpretability)** là mức độ mà con người có thể hiểu được nguyên nhân dẫn đến một quyết định do mô hình AI đưa ra. Trong khi các mô hình đơn giản như Cây Quyết định (Decision Trees) vốn dĩ dễ hiểu, các mô hình phức tạp hơn như Mạng Nơ-ron Sâu (Deep Neural Networks) lại hoạt động như những **"hộp đen" (black boxes)**, khiến cho quá trình ra quyết định của chúng trở nên mờ mịt.
+
+Sự thiếu minh bạch này, được gọi là **Vấn đề Hộp đen AI (AI Black Box Problem)**, tạo ra một số thách thức:
+
+* **Sự tin cậy và Trách nhiệm giải trình:** Rất khó để tin tưởng vào một quyết định nếu bạn không thể hiểu được lý do đằng sau nó.
+
+* **Gỡ lỗi (Debugging):** Nếu không hiểu được logic của mô hình, việc xác định và sửa lỗi sẽ rất khó khăn.
+
+* **Sự công bằng và Tuân thủ:** Việc giải thích là rất quan trọng để đảm bảo các hệ thống AI đưa ra quyết định công bằng và tuân thủ các quy định.
+
+**AI có thể giải thích (Explainable AI - XAI)** nhằm giải quyết những vấn đề này bằng cách cung cấp các kỹ thuật để hiểu và tin tưởng vào kết quả của các mô hình học máy.
+
+---
+
+### **6.2. Sự phát triển và Phân loại của XAI** 📈
+
+Lĩnh vực XAI đã phát triển đáng kể theo thời gian:
+
+1.  **Hệ thống Ký hiệu Sơ khai (1950s-1980s):** Các hệ thống AI ban đầu như hệ chuyên gia (expert systems) được thiết kế dựa trên luật và có tính minh bạch.
+
+2.  **Thách thức Hộp đen (1980s-Hiện tại):** Sự trỗi dậy của mạng nơ-ron đã giới thiệu các mô hình mạnh mẽ nhưng không minh bạch, tạo ra nhu cầu về các công cụ diễn giải mới.
+
+3.  **Sự ra đời của các Phương pháp XAI (2016-Hiện tại):** Các kỹ thuật như LIME và SHAP đã được phát triển để cung cấp cái nhìn sâu sắc về các mô hình phức tạp.
+
+Các kỹ thuật XAI có thể được phân loại rộng rãi như sau:
+
+* **Ante-hoc và Post-hoc:** Phương pháp Ante-hoc dành cho các mô hình có bản chất dễ diễn giải (ví dụ: Cây Quyết định). Phương pháp Post-hoc được áp dụng *sau khi* một mô hình phức tạp đã được huấn luyện để giải thích các dự đoán của nó.
+
+* **Phụ thuộc vào Mô hình (Model-Specific) và Bất biến với Mô hình (Model-Agnostic):** Các kỹ thuật phụ thuộc vào mô hình chỉ gắn với một kiến trúc mô hình cụ thể (ví dụ: Grad-CAM cho CNN). Các phương pháp bất biến với mô hình có thể được sử dụng trên bất kỳ mô hình nào. LIME là một kỹ thuật post-hoc và bất biến với mô hình.
+
+---
+
+### **6.3. LIME: Giải thích Cục bộ Diễn giải được và Bất biến với Mô hình**
+
+**LIME** là một thuật toán XAI phổ biến giúp giải thích dự đoán của bất kỳ mô hình hộp đen phức tạp nào bằng cách xấp xỉ nó với một mô hình đơn giản hơn, có thể diễn giải được (như hồi quy tuyến tính) trong phạm vi cục bộ của dự đoán cần được giải thích.
+
+Ý tưởng cốt lõi là tìm hiểu hành vi của một mô hình phức tạp đối với một **dự đoán đơn lẻ** bằng cách làm nhiễu đầu vào và xem các dự đoán thay đổi như thế nào.
+
+#### **Cách LIME hoạt động: Ví dụ với Hình ảnh**
+
+Giả sử một mô hình phức tạp dự đoán một hình ảnh có chứa "con ếch có đuôi". LIME giải thích dự đoán này qua các bước sau:
+
+1.  **Phân đoạn (Segmentation):** Hình ảnh gốc được chia thành các "siêu điểm ảnh" (superpixels), là những mảng liền kề gồm các pixel tương tự nhau. Những siêu điểm ảnh này trở thành các đặc trưng có thể diễn giải được.
+
+    ```python
+    import skimage.segmentation
+    
+    # Tạo các siêu điểm ảnh cho ảnh đầu vào
+    def generate_superpixels(image):
+        """Tạo các siêu điểm ảnh bằng thuật toán quickshift.""" #
+        superpixels = skimage.segmentation.quickshift(image, kernel_size=21, max_dist=200, ratio=0.2) #
+        return superpixels #
+    
+    superpixels = generate_superpixels(my_image) #
+    ```
+
+2.  **Gây nhiễu (Perturbation):** Tạo một bộ dữ liệu gồm các hình ảnh mới bằng cách ẩn hoặc hiện ngẫu nhiên các kết hợp khác nhau của các siêu điểm ảnh.
+
+3.  **Dự đoán (Prediction):** Sử dụng mô hình phức tạp ban đầu để dự đoán xác suất có "con ếch có đuôi" cho mỗi hình ảnh đã bị làm nhiễu.
+
+4.  **Gán trọng số (Weighting):** Gán trọng số cho mỗi ảnh bị nhiễu dựa trên sự gần gũi của nó với ảnh gốc. Các mẫu tương tự hơn (tức là có ít siêu điểm ảnh bị ẩn hơn) sẽ được gán trọng số cao hơn. Điều này thường được thực hiện bằng cách sử dụng một thước đo khoảng cách như khoảng cách cosine và hàm nhân (kernel function) mũ.
+
+    ```python
+    import numpy as np
+    import sklearn.metrics
+    
+    # Hàm tính toán trọng số dựa trên khoảng cách
+    def compute_distances_and_weights(perturbations, num_superpixels, kernel_width=8.25): #
+        original_image = np.ones(num_superpixels)[np.newaxis,:] #
+        distances = sklearn.metrics.pairwise_distances(perturbations, original_image, metric='cosine').ravel() #
+        weights = np.sqrt(np.exp(-(distances**2) / kernel_width**2)) #
+        return weights
+    ```
+
+5.  **Huấn luyện Mô hình Diễn giải được:** Huấn luyện một mô hình hồi quy tuyến tính có trọng số đơn giản trên bộ dữ liệu gồm các ảnh bị nhiễu và các dự đoán tương ứng của chúng. Các đặc trưng là biểu diễn nhị phân của các siêu điểm ảnh và mục tiêu là dự đoán từ mô hình phức tạp.
+
+    ```python
+    from sklearn.linear_model import LinearRegression
+    
+    # Huấn luyện một mô hình tuyến tính đơn giản
+    simpler_model = LinearRegression() #
+    simpler_model.fit(X=perturbations, y=probabilities[:, 0, class_to_explain], sample_weight=weights) #
+    ```
+
+6.  **Giải thích:** Các hệ số của mô hình tuyến tính đã huấn luyện cho thấy tầm quan trọng của mỗi siêu điểm ảnh. Một hệ số dương cao có nghĩa là siêu điểm ảnh đó đã đóng góp mạnh mẽ vào dự đoán "con ếch có đuôi".
+
+#### **LIME cho Văn bản**
+
+Quy trình tương tự cũng áp dụng cho dữ liệu văn bản:
+
+1.  **Mẫu (Instance):** Chọn câu cần giải thích (ví dụ: "Bộ phim thật sự tuyệt vời và diễn xuất thật xuất sắc.").
+
+2.  **Gây nhiễu:** Tạo ra các phiên bản mới của câu bằng cách loại bỏ ngẫu nhiên các từ.
+
+3.  **Dự đoán:** Lấy dự đoán về sắc thái (ví dụ: xác suất là "Tích cực") cho mỗi câu đã bị làm nhiễu từ mô hình hộp đen.
+
+4.  **Gán trọng số:** Gán trọng số cao hơn cho các mẫu tương tự hơn với văn bản gốc (càng ít từ bị loại bỏ thì càng tương tự).
+
+5.  **Huấn luyện Mô hình:** Huấn luyện một mô hình tuyến tính có trọng số, trong đó các đặc trưng là các chỉ số nhị phân cho sự hiện diện của mỗi từ.
+
+6.  **Giải thích:** Các hệ số của mô hình cho thấy những từ nào ("tuyệt vời", "xuất sắc") có ảnh hưởng tích cực nhất đến dự đoán.
+
+---
+
+### **6.4. Ưu điểm và Nhược điểm của LIME**
+
+**Ưu điểm:** 👍
+* **Dễ hiểu và dễ triển khai**.
+* **Bất biến với Mô hình (Model-Agnostic):** Hoạt động với mọi loại mô hình.
+* **Cung cấp các giải thích cục bộ** trực quan cho các dự đoán riêng lẻ.
+
+**Nhược điểm:** 👎
+* **Thiếu ổn định:** Các giải thích có thể không ổn định.
+* **Tốn kém về mặt tính toán:** Yêu cầu thực hiện nhiều dự đoán trên các mẫu bị nhiễu.
+* Định nghĩa về "cục bộ"
